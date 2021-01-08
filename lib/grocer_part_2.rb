@@ -38,6 +38,17 @@ def apply_clearance(cart)
   # Consult README for inputs and outputs
   #
   # REMEMBER: This method **should** update cart
+  new_cart = Array.new
+  
+  cart.each do |i|
+    if i[:clearance] == true
+      i[:price] *= .8
+    end
+    
+    new_cart.push(i)
+  end
+  
+  new_cart
 end
 
 def checkout(cart, coupons)
