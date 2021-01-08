@@ -4,6 +4,34 @@ def apply_coupons(cart, coupons)
   # Consult README for inputs and outputs
   #
   # REMEMBER: This method **should** update cart
+  new_cart = Array.new
+  
+  cart.each do |i|
+    if find_item_by_name_in_collection(i[:item], coupons)
+      
+      item_coupon = find_item_by_name_in_collection(i[:item], coupons)
+      coupon_increments = item_coupon[:num]
+      item_per_unit_w_coupon = item_coupon[:cost]/coupon_increments
+      
+      new_cart.push({
+        :item => i[:item],
+        :price => i[:price],
+        :clearance => i[:clearance],
+        :count => i[:count] % coupon_increments
+      })
+        
+      new_cart.push({
+        :item => "#{i[:item]} W/COUPON",
+        :price => item_per_unit_w_coupon,
+        :clearance => i[:clearance],
+        :count => i[:count] - (i[:count] % coupon_increments)
+      })
+    else
+      new_cart.push(i)
+    end
+  end
+  
+  new_cart
 end
 
 def apply_clearance(cart)
